@@ -36,61 +36,70 @@
     </table>
 
     <script language="javascript">
-
+     var isTableGenerated = false;
         function generateTable(){
             var appendColumns = document.getElementById('column');
             var table = document.getElementById('table');
             let numberOfColumns = parseInt(document.getElementById('t2').value);
             let numberOfRows = parseInt(document.getElementById('t1').value);
 
-            for(var i=0; i<numberOfColumns; i++){
-                var columnnum = i+1;
-                appendColumns.innerHTML += '<th>Column '+columnnum+'</th>';
+            if(!isNaN(numberOfColumns) && !isNaN(numberOfRows)){
+                isTableGenerated = true;
+                for(var i=0; i<numberOfColumns; i++){
+                    var columnnum = i+1;
+                    appendColumns.innerHTML += '<th>Column '+columnnum+'</th>';
+                }
+
+                for(var i=0; i<numberOfRows; i++){
+                    var rowNum = i+1;
+                    var rowCell ="";
+                    for(var j=0; j<numberOfColumns; j++){
+                        var columnNum = j+1;
+                        rowCell += "<td>Row "+rowNum+" Column "+columnNum+"</td>"
+                    }
+                    table.innerHTML += rowCell;
+                }
+                document.getElementById('b1').style.visibility = "hidden"
+                document.getElementById('t1').style.visibility = "hidden"
+                document.getElementById('t2').style.visibility = "hidden"
             }
 
-            for(var i=0; i<numberOfRows; i++){
-                var rowNum = i+1;
-                var rowCell ="";
-                for(var j=0; j<numberOfColumns; j++){
-                    var columnNum = j+1;
-                    rowCell += "<td>Row "+rowNum+" Column "+columnNum+"</td>"
-                }
-                table.innerHTML += rowCell;
-            }
-            document.getElementById('b1').style.visibility = "hidden"
-            document.getElementById('t1').style.visibility = "hidden"
-            document.getElementById('t2').style.visibility = "hidden"
         }
 
         function addColumn(){
-            var table = document.getElementById('table');
-            var columnCount = table.rows[0].cells.length;
-            var appendColumns = document.getElementById('column');
-            var totalColumn = columnCount+1;
-            appendColumns.innerHTML += '<th>Column '+totalColumn+'</th>';
+            if(isTableGenerated){
+                var table = document.getElementById('table');
+                var columnCount = table.rows[0].cells.length;
+                var appendColumns = document.getElementById('column');
+                var totalColumn = columnCount+1;
+                appendColumns.innerHTML += '<th>Column '+totalColumn+'</th>';
 
-            var arrayOfRows = document.getElementsByTagName("tr");
+                var arrayOfRows = document.getElementsByTagName("tr");
 
-            for(var i=0; i<arrayOfRows.length; i++){
-                if(i>0){
-                    arrayOfRows[i].innerHTML += "<td>Row "+i+" Column "+totalColumn+"</td>";
+                for(var i=0; i<arrayOfRows.length; i++){
+                    if(i>0){
+                        arrayOfRows[i].innerHTML += "<td>Row "+i+" Column "+totalColumn+"</td>";
+                    }
                 }
             }
+
 
         }
 
         function addRow(){
-            var table = document.getElementById('table');
-            var columnCount = table.rows[0].cells.length;
-            var arrayOfRows = document.getElementsByTagName("tr");
-            var rowCount = arrayOfRows.length;
-            var html = '<tr>'
-            for(var i=0; i<columnCount; i++){
-                var count = i+1;
-                html+= "<td>Row "+rowCount+" Column "+count+"</td>";
+            if(isTableGenerated) {
+                var table = document.getElementById('table');
+                var columnCount = table.rows[0].cells.length;
+                var arrayOfRows = document.getElementsByTagName("tr");
+                var rowCount = arrayOfRows.length;
+                var html = '<tr>'
+                for (var i = 0; i < columnCount; i++) {
+                    var count = i + 1;
+                    html += "<td>Row " + rowCount + " Column " + count + "</td>";
+                }
+                html += '</tr>'
+                table.innerHTML += html;
             }
-            html += '</tr>'
-            table.innerHTML += html;
         }
 
     </script>
