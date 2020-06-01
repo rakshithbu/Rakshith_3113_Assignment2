@@ -1,0 +1,98 @@
+<html>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    <font size="8" color="green">Final test lab</font><br><br>
+    Number of rows: <input type="text" id="t1" /><br><br>
+    Number of cols: <input type="text" id="t2" /><br><br>
+
+    <button id="b1" onclick="generateTable()">Generate Table</button><br><br>
+
+    <button id="b2" onclick="addColumn()">Add Column</button>
+
+    <button id="b3" onclick="addRow()">Add Row</button>
+
+    <table id="table">
+        <tr id="column">
+
+        </tr>
+
+
+    </table>
+
+    <script language="javascript">
+
+        function generateTable(){
+            var appendColumns = document.getElementById('column');
+            var table = document.getElementById('table');
+            let numberOfColumns = parseInt(document.getElementById('t2').value);
+            let numberOfRows = parseInt(document.getElementById('t1').value);
+
+            for(var i=0; i<numberOfColumns; i++){
+                var columnnum = i+1;
+                appendColumns.innerHTML += '<th>Column '+columnnum+'</th>';
+            }
+
+            for(var i=0; i<numberOfRows; i++){
+                var rowNum = i+1;
+                var rowCell ="";
+                for(var j=0; j<numberOfColumns; j++){
+                    var columnNum = j+1;
+                    rowCell += "<td>Row "+rowNum+" Column "+columnNum+"</td>"
+                }
+                table.innerHTML += rowCell;
+            }
+            document.getElementById('b1').style.visibility = "hidden"
+            document.getElementById('t1').style.visibility = "hidden"
+            document.getElementById('t2').style.visibility = "hidden"
+        }
+
+        function addColumn(){
+            var table = document.getElementById('table');
+            var columnCount = table.rows[0].cells.length;
+            var appendColumns = document.getElementById('column');
+            var totalColumn = columnCount+1;
+            appendColumns.innerHTML += '<th>Column '+totalColumn+'</th>';
+
+            var arrayOfRows = document.getElementsByTagName("tr");
+
+            for(var i=0; i<arrayOfRows.length; i++){
+                if(i>0){
+                    arrayOfRows[i].innerHTML += "<td>Row "+i+" Column "+totalColumn+"</td>";
+                }
+            }
+
+        }
+
+        function addRow(){
+            var table = document.getElementById('table');
+            var columnCount = table.rows[0].cells.length;
+            var arrayOfRows = document.getElementsByTagName("tr");
+            var rowCount = arrayOfRows.length;
+            var html = '<tr>'
+            for(var i=0; i<columnCount; i++){
+                var count = i+1;
+                html+= "<td>Row "+rowCount+" Column "+count+"</td>";
+            }
+            html += '</tr>'
+            table.innerHTML += html;
+        }
+
+    </script>
+</head>
+</html>
